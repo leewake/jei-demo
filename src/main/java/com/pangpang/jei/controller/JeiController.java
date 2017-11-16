@@ -23,6 +23,9 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 public class JeiController {
 	
+	/**
+	 * 此处应该注入接口，然后使用@Qualifier，不应该直接注入实现类
+	 */
 	@Autowired
 	private FemaleServiceImpl femaleService;
 	

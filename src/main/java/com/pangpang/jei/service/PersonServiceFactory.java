@@ -22,6 +22,11 @@ public class PersonServiceFactory {
 	
 	private static FemaleServiceImpl femaleService;
 
+	/**
+	 * 之前一直写成static方法，导致service注入不进去
+	 * 
+	 * @param maleSevice
+	 */
 	@Autowired
 	public void setMaleSevice(MaleServiceImpl maleSevice) {
 		PersonServiceFactory.maleSevice = maleSevice;
