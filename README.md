@@ -3,7 +3,6 @@ Demo project for Jpa Entity Inheritance
 
 # Introduction
 1.Jpa entity inheritance refer to :
-
 [JPA实体继承实体的映射策略](http://blog.csdn.net/mhmyqn/article/details/37996673)
 
 2.Use a factory method to search different person
