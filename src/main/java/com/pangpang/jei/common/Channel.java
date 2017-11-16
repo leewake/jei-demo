@@ -5,6 +5,6 @@ package com.pangpang.jei.common;
 */
 public enum Channel {
 	
-	PERSON, MALE;
+	PERSON, MALE, FEMALE;
 	
 }

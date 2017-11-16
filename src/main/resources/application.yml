@@ -5,11 +5,6 @@ server:
 logging:
   file: ${LOGGING_FILE:jei-demo.log}
 
-management:
-  info:
-    git:
-      mode: full
-              
 spring:
   profiles:
     active: ${PROFILE:develop}

@@ -4,24 +4,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pangpang.jei.entity.PersonEntity;
-import com.pangpang.jei.repository.PersonRepository;
+import com.pangpang.jei.repository.FemaleRepository;
 import com.pangpang.jei.service.PersonSevice;
 
 /** 
 * @author  : lijingwei
-* @version ：2017年11月15日 下午7:06:40 
+* @version ：2017年11月16日 上午11:19:59 
 */
 
-@Service("personService")
-public class PersonSeviceImpl implements PersonSevice{
-
-	@Autowired
-	private PersonRepository personRepository;
+@Service("femaleService")
+public class FemaleServiceImpl implements PersonSevice{
 	
+	@Autowired
+	private FemaleRepository femaleRepository;
+
 	@Override
 	public PersonEntity searchPerson(Long id) {
-		PersonEntity person = personRepository.findOne(id);
-		return person;
+		PersonEntity female = femaleRepository.findOne(id);
+		return female;
 	}
 
 }

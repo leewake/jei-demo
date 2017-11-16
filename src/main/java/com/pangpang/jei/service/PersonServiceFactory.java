@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.pangpang.jei.common.Channel;
+import com.pangpang.jei.service.impl.FemaleServiceImpl;
 import com.pangpang.jei.service.impl.MaleServiceImpl;
 import com.pangpang.jei.service.impl.PersonSeviceImpl;
 
@@ -18,15 +19,22 @@ public class PersonServiceFactory {
 	private static MaleServiceImpl maleSevice;
 	
 	private static PersonSeviceImpl personSevice;
+	
+	private static FemaleServiceImpl femaleService;
 
 	@Autowired
-	public static void setMaleSevice(MaleServiceImpl maleSevice) {
+	public void setMaleSevice(MaleServiceImpl maleSevice) {
 		PersonServiceFactory.maleSevice = maleSevice;
 	}
 
 	@Autowired
-	public static void setPersonSevice(PersonSeviceImpl personSevice) {
+	public void setPersonSevice(PersonSeviceImpl personSevice) {
 		PersonServiceFactory.personSevice = personSevice;
+	}
+	
+	@Autowired
+	public void setFemaleService(FemaleServiceImpl femaleService) {
+		PersonServiceFactory.femaleService = femaleService;
 	}
 	
 	public static PersonSevice get(Channel key){
@@ -37,6 +45,9 @@ public class PersonServiceFactory {
 			
 		case MALE:
 			return maleSevice;
+			
+		case FEMALE:
+			return femaleService;
 			
 		default:
 			throw new RuntimeException("no valid service!!!");
