@@ -1,8 +1,7 @@
 # jei-demo
 Demo project for Jpa Entity Inheritance
 
-##Introduction
-
+#Introduction
 1.Jpa entity inheritance refer to :
 
 [JPA实体继承实体的映射策略](http://blog.csdn.net/mhmyqn/article/details/37996673)
@@ -12,7 +11,7 @@ Person, Male, Female
 
 3.This is a spring boot application
 
-##Memo
+#Memo
 1.The annotation @Autowired is not used in a <font color="red">static method</font>. For more details, please see code <font color="red">PersonServiceFactory.setMaleSevice(MaleServiceImpl)</font>.
 
 2.Create the <font color="red">PersonEntity</font>, due to using the strategy <font color="red">@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)</font>, so the type of geneating id should be <font color="blue">GenerationType.TABLE</font>. This leads to create a extra table <font color="red">hibernate_sequences</font>. More deatils, please see :
