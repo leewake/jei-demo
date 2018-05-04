@@ -1,5 +1,5 @@
 server:
-  port: ${PORT:8080}
+  port: ${PORT:8070}
   context-path: ${CONTEXTPATH:/jei-demo}
 
 logging:
@@ -24,3 +24,24 @@ spring:
     hibernate:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+# Redis数据库索引（默认为0）
+  redis:
+    database: 0  
+# Redis服务器地址
+    host: 118.25.13.207
+# Redis服务器连接端口
+    port: 6379  
+# Redis服务器连接密码（默认为空）
+    password:  
+# 连接超时时间（毫秒）
+    timeout: 0
+    jedis:
+        pool:
+  # 连接池最大连接数（使用负值表示没有限制）
+          max-active: 8  
+    # 连接池最大阻塞等待时间（使用负值表示没有限制）
+          max-wait: -1  
+    # 连接池中的最大空闲连接
+          max-idle: 8  
+    # 连接池中的最小空闲连接
+          min-idle: 0  
