@@ -11,42 +11,42 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class RedisController {
-	
+
 	@Autowired
 	private StringRedisTemplate template;
-	
+
 	@Autowired
-	private RedisTemplate redisTemplate;
-	
+	private RedisTemplate<String, Object> redisTemplate;
+
 	@PostMapping("/redis/setAndGet")
 	public String testSetAndGet() {
 		template.opsForValue().set("aaa", "111");
 		String result = template.opsForValue().get("aaa");
 		return result;
 	}
-	
+
 	@PostMapping("/redis/cacheUser")
 	public void testObj() throws Exception {
-        User user=new User("aa@126.com", "aa", "aa123456");
-        ValueOperations<String, User> operations = redisTemplate.opsForValue();
-        operations.set("com.neox", user);
-        operations.set("com.neo.f", user, 100, TimeUnit.SECONDS);
-        Thread.sleep(1000);
-        //redisTemplate.delete("com.neo.f");
-        boolean exists = redisTemplate.hasKey("com.neo.f");
-        if(exists){
-            System.out.println("exists is true");
-        }else{
-            System.out.println("exists is false");
-        }
-       System.out.println(operations.get("com.neo.f").getName());
-    }
+		User user = new User("aa@126.com", "aa", "aa123456");
+		ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+		operations.set("com.neox", user);
+		operations.set("com.neo.f", user, 10, TimeUnit.SECONDS);
+		Thread.sleep(1000);
+		boolean exists = redisTemplate.hasKey("com.neo.f");
+		if (exists) {
+			System.out.println("exists is true");
+		} else {
+			System.out.println("exists is false");
+		}
+		User tmp = (User) operations.get("com.neo.f");
+		System.out.println(tmp.getName());
+	}
 
 	public static class User {
 		private String mail;
 		private String name;
 		private String password;
-		
+
 		public User() {
 		}
 
@@ -79,7 +79,7 @@ public class RedisController {
 		public void setPassword(String password) {
 			this.password = password;
 		}
-		
+
 	}
 
 }
