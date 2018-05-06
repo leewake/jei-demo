@@ -3,13 +3,21 @@ package com.pangpang.jei.controller;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pangpang.jei.entity.MaleEntity;
+import com.pangpang.jei.service.impl.MaleServiceImpl;
+
 @RestController
+@RequestMapping("/redis")
 public class RedisController {
 
 	@Autowired
@@ -18,14 +26,17 @@ public class RedisController {
 	@Autowired
 	private RedisTemplate<String, Object> redisTemplate;
 
-	@PostMapping("/redis/setAndGet")
+	@Autowired
+	private MaleServiceImpl maleService;
+	
+	@PostMapping("/setAndGet")
 	public String testSetAndGet() {
 		template.opsForValue().set("aaa", "111");
 		String result = template.opsForValue().get("aaa");
 		return result;
 	}
 
-	@PostMapping("/redis/cacheUser")
+	@PostMapping("/cacheUser")
 	public void testObj() throws Exception {
 		User user = new User("aa@126.com", "aa", "aa123456");
 		ValueOperations<String, Object> operations = redisTemplate.opsForValue();
@@ -40,6 +51,13 @@ public class RedisController {
 		}
 		User tmp = (User) operations.get("com.neo.f");
 		System.out.println(tmp.getName());
+	}
+	
+	@GetMapping("/test/cacheable")
+	@Cacheable(value = "male", key = "#id")
+	public MaleEntity findMale(@RequestParam Long id) {
+		MaleEntity male = (MaleEntity) maleService.searchPerson(id);
+		return male; 
 	}
 
 	public static class User {

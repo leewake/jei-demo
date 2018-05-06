@@ -25,5 +25,13 @@ public class MaleEntity extends PersonEntity implements Serializable {
 		String person = super.toString();
 		return person + " MaleEntity [male=" + male + "]";
 	}
+
+	public String getMale() {
+		return male;
+	}
+
+	public void setMale(String male) {
+		this.male = male;
+	}
 	
 }
