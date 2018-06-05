@@ -76,11 +76,12 @@ public class IoController {
      * <B>Description:</B> 用easyexcel导出excel <br>
      * <B>Create on:</B> 2018/6/5 上午10:53 <br>
      *
+     * 使用url: http://localhost:8070/jei-demo/excel/export
+     * SWAGGER中打开乱码
      * @author leewake
      */
-    @ResponseBody
     @ApiOperation("excel导出")
-    @PostMapping("/excel/export")
+    @GetMapping("/excel/export")
     public void exportExcel(HttpServletRequest request, HttpServletResponse response) {
 
         ServletOutputStream out = null;
@@ -97,7 +98,7 @@ public class IoController {
             Sheet sheet1 = new Sheet(1, 0);
             sheet1.setSheetName("第一个sheet");
             writer.write0(getListString(), sheet1);
-            response.setContentType("multipart/vnd.ms-excel");
+            response.setContentType("multipart/form-data");
             response.setCharacterEncoding("utf-8");
             response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xlsx");
             out.flush();
