@@ -7,25 +7,20 @@ import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-/**
- * @description: 加载动态文件
- * @author: leewake
- * @create: 2019-11-28 11:56
- **/
-
 public class NativeLoader {
+
     /**
-     * 加载项目下的native文件，DLL或SO
+     * <B>Description:</B> 加载项目下的native文件，DLL或SO <br>
+     * <B>Create on:</B> 2019/11/28 下午7:54 <br>
      *
      * @param dirPath 需要扫描的文件路径，项目下的相对路径
-     * @throws IOException
-     * @throws ClassNotFoundException
+     *
+     * @author leewake
      */
     public synchronized static void loader(String dirPath) throws IOException, ClassNotFoundException {
         Enumeration<URL> dir = Thread.currentThread().getContextClassLoader().getResources(dirPath);
         // 获取操作系统类型
         String systemType = System.getProperty("os.name");
-        //String systemArch = System.getProperty("os.arch");
         // 获取动态链接库后缀名
         String ext = (systemType.toLowerCase().indexOf("win") != -1) ? ".dll" : ".so";
         while (dir.hasMoreElements()) {
@@ -54,6 +49,12 @@ public class NativeLoader {
         }
     }
 
+    /**
+     * <B>Description:</B> 加载本地动态文件 <br>
+     * <B>Create on:</B> 2019/11/28 下午7:55 <br>
+     *
+     * @author leewake
+     */
     private static void loadFileNative(File file, String ext) {
         if (null == file) {
             return;

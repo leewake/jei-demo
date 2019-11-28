@@ -19,9 +19,9 @@ public class SM4Jni {
     private static final String pathPrefix = "/Users/lijingwei/sm/ubuntu/demo";
 
     //native声明，用于生成c/c++代码
-    public native byte[] sm4Encry(byte[] data, byte[] key, byte[] iv, int mode);
+    public native static byte[] sm4Encry(byte[] data, byte[] key, byte[] iv, int mode);
 
-    public native byte[] sm4Decry(byte[] data, byte[] key, byte[] iv, int mode);
+    public native static byte[] sm4Decry(byte[] data, byte[] key, byte[] iv, int mode);
 
     public static void encDataFromFile(String filePath, byte[] key, byte[] iv, int mode) throws Exception {
         if (mode == 0) {
@@ -102,22 +102,9 @@ public class SM4Jni {
     }
 
     public static byte[] sm4Enc(String plainText, byte[] key, byte[] iv, int mode) throws IOException {
-        byte[] bytes = padding(plainText.getBytes(), SM4_ENCRYPT);
-        int length = bytes.length;
-
-        ByteArrayInputStream bins = new ByteArrayInputStream(bytes);
-        ByteArrayOutputStream bous = new ByteArrayOutputStream();
-        for (; length > 0; length -= 16) {
-            byte[] in = new byte[16];
-            bins.read(in);
-            byte[] ciphertext = new SM4Jni().sm4Encry(in, key, iv, mode);
-            bous.write(ciphertext);
-        }
-
-        byte[] output = bous.toByteArray();
-        bins.close();
-        bous.close();
-
+        byte[] output = new SM4Jni().sm4Encry(plainText.getBytes("UTF-8"), key, iv, mode);
+        System.out.println("加密后byte数组:");
+        printByteToStr(output, output.length);
         return output;
     }
 
@@ -129,30 +116,42 @@ public class SM4Jni {
      */
     public static String sm4DecStr(String cipherText, byte[] key, byte[] iv, int mode) throws IOException {
         byte[] plainTextOus = sm4Dec(cipherText, key, iv, mode);
-        String cipherStr = new String(plainTextOus);
+        String cipherStr = new String(plainTextOus, "UTF-8");
         return cipherStr;
     }
 
     public static byte[] sm4Dec(String cipherText, byte[] key, byte[] iv, int mode) throws IOException {
         //使用Base64先decode
         byte[] bytes = Base64.getDecoder().decode(cipherText);
-        int length = bytes.length;
+        byte[] plainText = new SM4Jni().sm4Decry(bytes, key, iv, mode);
 
-        ByteArrayInputStream bins = new ByteArrayInputStream(bytes);
-        ByteArrayOutputStream bous = new ByteArrayOutputStream();
-        for (; length > 0; length -= 16) {
-            byte[] in = new byte[16];
-            bins.read(in);
-            byte[] plainText = new SM4Jni().sm4Decry(in, key, iv, mode);
-            bous.write(plainText);
+        if (mode == 0) {
+            System.out.println("using ecb mode");
+        } else if (mode == 1) {
+            System.out.println("using cbc mode");
+        } if (mode == 2) {
+            System.out.println("using ctr mode");
+        }
+        if (mode == 0 || mode == 1) {
+            byte[] realPlain = offPadding(plainText);
+            return realPlain;
         }
 
-        byte[] output = bous.toByteArray();
-        byte[] outputAfterPadding = padding(output, SM4_DECRYPT);
-        bins.close();
-        bous.close();
+        return plainText;
+    }
 
-        return outputAfterPadding;
+    //去padding
+    private static byte[] offPadding(byte[] bytes) {
+        int length = bytes.length;
+        int ptr = length - 1;
+        while (bytes[ptr] == (byte)0x00) {
+            ptr--;
+        }
+        byte[] ret = new byte[ptr];
+        if (bytes[ptr] == (byte)0x80) {
+            System.arraycopy(bytes, 0, ret, 0, ptr);
+        }
+        return ret;
     }
 
     private static void printByteToStr(byte[] bytes, int length) {
