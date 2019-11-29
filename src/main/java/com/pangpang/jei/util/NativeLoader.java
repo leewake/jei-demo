@@ -7,6 +7,12 @@ import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+/**
+ * <B>Description:</B> 参考链接 <br>
+ * <B>Create on:</B> 2019/11/29 下午1:41 <br>
+ * https://blog.csdn.net/qq_28483283/article/details/90259838
+ * @author leewake
+ */
 public class NativeLoader {
 
     /**
